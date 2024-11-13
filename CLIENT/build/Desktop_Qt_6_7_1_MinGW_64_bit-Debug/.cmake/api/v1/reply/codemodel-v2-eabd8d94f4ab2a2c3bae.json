@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d47f0d440e2346afbe58.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "CLIENT",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CLIENT::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CLIENT-Debug-7e38ee08a7212dc05700.json",
+					"name" : "CLIENT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "CLIENT_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CLIENT_autogen-Debug-d232aa23d88462c02e9b.json",
+					"name" : "CLIENT_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "CLIENT_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CLIENT_autogen_timestamp_deps-Debug-ed326a19b5abe538f0a9.json",
+					"name" : "CLIENT_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug",
+		"source" : "C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

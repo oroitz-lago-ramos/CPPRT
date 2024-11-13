@@ -1,0 +1,9 @@
+# ninja log v5
+7	595	7532054876449837	CLIENT_autogen/timestamp	ac606c8c7089c305
+7	595	7532054876449837	CLIENT_autogen/mocs_compilation.cpp	ac606c8c7089c305
+7	595	7532054876449837	C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CLIENT_autogen/timestamp	ac606c8c7089c305
+7	595	7532054876449837	C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CLIENT_autogen/mocs_compilation.cpp	ac606c8c7089c305
+596	2342	7532054894517001	CMakeFiles/CLIENT.dir/CLIENT_autogen/mocs_compilation.cpp.obj	f2d95f462ba89ff
+599	2360	7532054894687241	CMakeFiles/CLIENT.dir/main.cpp.obj	ea7ee48790a931a6
+602	2381	7532054894898586	CMakeFiles/CLIENT.dir/mainwindow.cpp.obj	90dd0afc9f1ed2c9
+2381	2576	7532054896773149	CLIENT.exe	637b319e5dd048b8

@@ -1,0 +1,9 @@
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/CLIENT.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/CLIENT_autogen_timestamp_deps.dir
+C:/Users/Oroitz/Documents/Datos/ProjetsLaPlateforme/gits/Year_2/CPPRT/CLIENT/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/CLIENT_autogen.dir
