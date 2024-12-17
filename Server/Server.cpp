@@ -1,68 +1,65 @@
-#include "Server.h"
+#include "server.h"
 #include <QDebug>
 
-Server::Server(QObject* parent) : QObject(parent) {
-    tcpServer = new QTcpServer(this);
-
-    // Connect the signal for new connections to the slot
-    connect(tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
+Server::Server(QObject *parent) : QTcpServer(parent) {
+    qDebug() << "Server initialized.";
 }
 
-bool Server::startServer(quint16 port) {
-    if (!tcpServer->listen(QHostAddress::Any, port)) {
-        qDebug() << "Server failed to start: " << tcpServer->errorString();
-        return false;
-    }
-    qDebug() << "Server started on port" << port;
-    return true;
-}
-
-void Server::onNewConnection() {
-    QTcpSocket* clientSocket = tcpServer->nextPendingConnection();
-    clients[clientSocket] = "";  // Initialize client with an empty username
-
-    // Connect client-specific signals
-    connect(clientSocket, &QTcpSocket::readyRead, this, &Server::onReadyRead);
-    connect(clientSocket, &QTcpSocket::disconnected, this, &Server::onClientDisconnected);
-
-    qDebug() << "New client connected: " << clientSocket->peerAddress().toString();
-}
-
-void Server::onClientDisconnected() {
-    QTcpSocket* clientSocket = qobject_cast<QTcpSocket*>(sender());
-    if (clientSocket) {
-        qDebug() << "Client disconnected: " << clients[clientSocket];
-        clients.remove(clientSocket);  // Remove client from the map
-        clientSocket->deleteLater();
+void Server::incomingConnection(qintptr socketDescriptor) {
+    qDebug() << "Incoming connection with descriptor:" << socketDescriptor;
+    QTcpSocket *clientSocket = new QTcpSocket(this);
+    if (clientSocket->setSocketDescriptor(socketDescriptor)) {
+        clients.append(clientSocket);
+        connect(clientSocket, &QTcpSocket::readyRead, this, &Server::onReadyRead);
+        connect(clientSocket, &QTcpSocket::disconnected, this, &Server::onClientDisconnected);
+        qDebug() << "Client connected successfully.";
+    } else {
+        qDebug() << "Failed to set socket descriptor.";
+        delete clientSocket;
     }
 }
 
 void Server::onReadyRead() {
-    QTcpSocket* clientSocket = qobject_cast<QTcpSocket*>(sender());
-    if (clientSocket) {
-        QByteArray data = clientSocket->readAll();
-        qDebug() << "Received data:" << data;
+    QTcpSocket *clientSocket = qobject_cast<QTcpSocket*>(sender());
+    if (!clientSocket) {
+        qDebug() << "Invalid client socket in onReadyRead.";
+        return;
+    }
 
-        // If the username is empty, this means it's the first message (username setting)
-        if (clients[clientSocket].isEmpty()) {
-            clients[clientSocket] = QString::fromUtf8(data).trimmed();  // Set username
-            qDebug() << "Username set for client: " << clients[clientSocket];
-        } else {
-            // If the client already has a username, broadcast their message
-            QString username = clients[clientSocket];
-            qDebug() << "Message from " << username << ": " << data;
+    QByteArray data = clientSocket->readAll();
+    if (clientUsernames.contains(clientSocket)) {
+        // If the username has been set, forward the message to other clients
+        QString message = clientUsernames[clientSocket] + ": " + QString::fromUtf8(data);
+        qDebug() << "Message received from " << clientUsernames[clientSocket] << ": " << message;
 
-            // Broadcast the message to all other clients
-            for (QTcpSocket* client : clients.keys()) {
-                if (client != clientSocket) {
-                    // Include username in the message
-                    client->write(username.toUtf8() + ": " + data);
-                }
+        // Broadcast the message to all other clients
+        for (QTcpSocket *socket : clients) {
+            if (socket != clientSocket) {
+                socket->write(message.toUtf8());
             }
+        }
+    } else {
+        // If no username has been set, treat the data as a username
+        QString username = QString::fromUtf8(data).trimmed();
+        if (!username.isEmpty()) {
+            clientUsernames[clientSocket] = username;
+            qDebug() << "Username set for client: " << username;
+            clientSocket->write("Welcome, " + username.toUtf8() + "\n");
+        } else {
+            clientSocket->write("Invalid username.\n");
         }
     }
 }
 
-QStringList Server::getAllUsernames() {
-    return clients.values();  // Return a list of all usernames
+void Server::onClientDisconnected() {
+    QTcpSocket *clientSocket = qobject_cast<QTcpSocket*>(sender());
+    if (clientSocket) {
+        // Remove the client from the list and delete it
+        clientUsernames.remove(clientSocket);
+        clients.removeAll(clientSocket);
+        clientSocket->deleteLater();
+        qDebug() << "Client disconnected.";
+    } else {
+        qDebug() << "Error: Disconnected signal from an invalid socket.";
+    }
 }
