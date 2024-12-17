@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,3 +13,16 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_pushButton_Login_clicked()
+{
+    QString username = ui->lineEdit_username->text();
+    if(username.isEmpty()){
+        QMessageBox::information(this,"Login","Enter a user Name");
+    }
+
+    else{
+        QMessageBox::information(this,"Login","Welcome " + username);
+    }
+}
+
