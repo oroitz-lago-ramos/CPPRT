@@ -3,4 +3,5 @@ SUBDIRS += Client \
             # Server \
            # Launcher \
     Launcher \
-    Server
+    Server \
+    TestServer

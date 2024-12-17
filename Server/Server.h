@@ -12,6 +12,9 @@ class Server : public QObject {
 public:
     explicit Server(QObject* parent = nullptr);
     bool startServer(quint16 port);
+    QStringList getAllUsernames();
+
+    QMap<QTcpSocket*, QString> clients; // Map of connected clients to usernames
 
 private slots:
     void onNewConnection();
@@ -20,7 +23,6 @@ private slots:
 
 private:
     QTcpServer* tcpServer;               // The TCP server
-    QMap<QTcpSocket*, QString> clients; // Map of connected clients to usernames
 };
 
 #endif // SERVER_H
