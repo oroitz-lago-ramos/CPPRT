@@ -1,10 +1,6 @@
 #include <QCoreApplication>
 #include "Server.h"
 
-#ifdef RUN_TESTS
-#include "TestServer.h"
-#endif
-
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
 
