@@ -19,8 +19,11 @@ public:
 
 private slots:
     void on_pushButton_Login_clicked();
+    void onConnectionSuccess(); // Called when connection succeeds
+    void onConnectionFailure(); // Called when connection fails
 
 private:
+    QString m_pendingUsername; // Store username temporarily
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

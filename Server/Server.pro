@@ -1,7 +1,5 @@
 QT += core network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 CONFIG += c++17
 
 SOURCES += \
@@ -10,9 +8,6 @@ SOURCES += \
 
 HEADERS += \
     Server.h
-
-# Ensure moc is called for the test header
-FORMS +=
 
 # Optional: For deployment rules
 qnx: target.path = /tmp/$${TARGET}/bin

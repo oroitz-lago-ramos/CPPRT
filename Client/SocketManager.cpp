@@ -20,11 +20,6 @@ SocketManager* SocketManager::instance()
     return m_instance;
 }
 
-void SocketManager::connectToServer(const QString& host, quint16 port)
-{
-    m_socket->connectToHost(host, port);
-}
-
 void SocketManager::sendMessage(const QString& message)
 {
     if (m_socket->state() == QTcpSocket::ConnectedState) {
@@ -43,17 +38,34 @@ void SocketManager::onReadyRead()
     emit messageReceived(QString::fromUtf8(data));
 }
 
-void SocketManager::onConnected()
-{
-    emit connected();
-}
-
 void SocketManager::onDisconnected()
 {
     emit disconnected();
 }
 
-void SocketManager::onError(QAbstractSocket::SocketError error)
+
+void SocketManager::connectToServer(const QString &host, quint16 port)
 {
-    emit errorOccurred(m_socket->errorString());
+    if (m_socket->state() == QAbstractSocket::ConnectedState) {
+        emit connectedToServer(); // Already connected
+        return;
+    }
+
+    connect(m_socket, &QTcpSocket::connected, this, &SocketManager::onConnected);
+    connect(m_socket, &QTcpSocket::errorOccurred, this, &SocketManager::onError);
+
+    m_socket->connectToHost(host, port);
+}
+
+void SocketManager::onConnected()
+{
+    qDebug() << "Connected to the server.";
+    emit connectedToServer(); // Signal success
+}
+
+void SocketManager::onError(QAbstractSocket::SocketError socketError)
+{
+    Q_UNUSED(socketError);
+    qDebug() << "Connection error: " << m_socket->errorString();
+    emit connectionFailed(); // Signal failure
 }

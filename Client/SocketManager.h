@@ -20,6 +20,9 @@ signals:
     void disconnected();
     void errorOccurred(const QString& error);
 
+    void connectedToServer(); // Notify when connected successfully
+    void connectionFailed();  // Notify on connection failure
+
 private slots:
     void onReadyRead();
     void onConnected();

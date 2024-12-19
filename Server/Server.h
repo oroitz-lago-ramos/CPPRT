@@ -18,7 +18,6 @@ protected:
 private slots:
     void onReadyRead();
     void onClientDisconnected();
-    void onUsernameReceived();
 
 private:
     QList<QTcpSocket*> clients;
