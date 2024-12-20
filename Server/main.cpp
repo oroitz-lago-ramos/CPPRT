@@ -1,11 +1,12 @@
-#include "mainwindow.h"
+#include <QCoreApplication>
+#include "Server.h"
 
-#include <QApplication>
+int main(int argc, char *argv[]) {
+    QCoreApplication app(argc, argv);
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    Server server;
+    if (!server.startServer(12345)) {
+        return -1;  // Exit if the server fails to start
+    }
+    return app.exec();  // Run the server normally
 }
