@@ -1,28 +1,27 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef SERVEUR_H
+#define SERVEUR_H
 
-#include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QMap>
+#include <QList>
+#include <QHostAddress>
+#include <QHash>
 
-class Server : public QObject {
+class Server : public QTcpServer {
     Q_OBJECT
-
 public:
-    explicit Server(QObject* parent = nullptr);
-    bool startServer(quint16 port);
-    QStringList getAllUsernames();
+    explicit Server(QObject *parent = nullptr);
 
-    QMap<QTcpSocket*, QString> clients; // Map of connected clients to usernames
+protected:
+    void incomingConnection(qintptr socketDescriptor) override;
 
 private slots:
-    void onNewConnection();
-    void onClientDisconnected();
     void onReadyRead();
+    void onClientDisconnected();
 
 private:
-    QTcpServer* tcpServer;               // The TCP server
+    QList<QTcpSocket*> clients;
+    QHash<QTcpSocket*, QString> clientUsernames; // Maps client socket to username
 };
 
-#endif // SERVER_H
+#endif // SERVEUR_H
