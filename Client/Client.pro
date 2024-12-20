@@ -10,14 +10,17 @@ CONFIG += c++17
 
 SOURCES += \
     SocketManager.cpp \
+    Chat.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     SocketManager.h \
+    Chat.h \
     mainwindow.h
 
 FORMS += \
+    Chat.ui \
     mainwindow.ui
 
 # Default rules for deployment.
