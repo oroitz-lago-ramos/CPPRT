@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -119,4 +120,9 @@ void ChatWindow::onDisconnected()
 {
     QMessageBox::warning(this, "Disconnected", "You have been disconnected from the server.");
     close();
+}
+void ChatWindow::closeEvent(QCloseEvent *event)
+{
+    emit chatClosed();
+    QMainWindow::closeEvent(event);
 }
