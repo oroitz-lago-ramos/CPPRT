@@ -1,19 +1,13 @@
-#ifndef CHAT_H
-#define CHAT_H
+#ifndef CHATWINDOW_H
+#define CHATWINDOW_H
 
 #include <QMainWindow>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QListView>
 #include <QListWidget>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QLabel>
+#include <QListView>
 #include <QFrame>
-
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class ChatWindow;
-}
-QT_END_NAMESPACE
 
 class ChatWindow : public QMainWindow
 {
@@ -21,31 +15,30 @@ class ChatWindow : public QMainWindow
 
 public:
     explicit ChatWindow(QWidget *parent = nullptr);
-    ~ChatWindow();
+    ~ChatWindow();  
 
 private slots:
-    void on_pushButton_Send_clicked();
-    void on_pushButton_Quit_clicked();
+    void on_pushButton_Send_clicked(); // Handles sending messages
+    void on_pushButton_Quit_clicked(); // Handles quitting the application
+    void onMessageReceived(const QString& message); // Slot to handle incoming messages
+    void onDisconnected(); // Slot to handle disconnection from the server
 
 protected:
     void closeEvent(QCloseEvent *event) override;
 
 signals:
-    void chatClosed();
+    void chatClosed();  // Declaration of the chatClosed signal.
+
 
 private:
-    // UI elements
-    QPushButton *pushButton_send;
-    QPushButton *pushButton_quit;
-    QLineEdit *lineEdit_message_input;
-    QListView *listView_user_online;
-    QListWidget *listWidget_message_box;
-    QLabel *label;
-    QFrame *frame;
-    QPushButton *pushButton;
-
-    Ui::ChatWindow *ui;
+    // UI Components
+    QListWidget *listWidget_message_box; // Chat message display area
+    QListView *listView_user_online;    // User online display area
+    QLineEdit *lineEdit_message_input;  // Input field for typing messages
+    QPushButton *pushButton_send;       // Send button
+    QPushButton *pushButton_quit;       // Quit button
+    QLabel *label;                      // Label for "Message"
+    QFrame *frame;                      // Input area frame
 };
 
-
-#endif // CHAT_H
+#endif // CHATWINDOW_H

@@ -1,10 +1,5 @@
 #include "Chat.h"
-#include <QPushButton>
-#include <QListView>
-#include <QListWidget>
-#include <QLineEdit>
-#include <QLabel>
-#include <QFrame>
+#include "SocketManager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -27,7 +22,7 @@ ChatWindow::ChatWindow(QWidget *parent)
     // Create and configure the message box
     listWidget_message_box = new QListWidget(this);
     listWidget_message_box->setGeometry(30, 10, 771, 421);
-    listWidget_message_box->setStyleSheet("");
+    listWidget_message_box->setStyleSheet("color: rgb(0, 0, 0);");
     mainLayout->addWidget(listWidget_message_box);
 
     // Create and configure the user online list view
@@ -39,8 +34,6 @@ ChatWindow::ChatWindow(QWidget *parent)
     frame = new QFrame(this);
     frame->setGeometry(30, 440, 1051, 161);
     frame->setStyleSheet("background-color: rgb(31, 31, 31);");
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Raised);
     mainLayout->addWidget(frame);
 
     // Input layout for the frame
@@ -49,13 +42,13 @@ ChatWindow::ChatWindow(QWidget *parent)
     // Create and configure the label
     label = new QLabel("Message", this);
     label->setGeometry(50, 450, 63, 20);
-    label->setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(31, 31, 31);");
+    label->setStyleSheet("color: rgb(255, 255, 255);");
     inputLayout->addWidget(label);
 
     // Create and configure the message input line edit
     lineEdit_message_input = new QLineEdit(this);
     lineEdit_message_input->setGeometry(180, 450, 471, 28);
-    lineEdit_message_input->setStyleSheet("color: rgb(0, 0, 0);");
+    lineEdit_message_input->setStyleSheet("color: rgb(255, 255, 255);");
     inputLayout->addWidget(lineEdit_message_input);
 
     // Create and configure the send button
@@ -70,14 +63,17 @@ ChatWindow::ChatWindow(QWidget *parent)
     pushButton_quit->setStyleSheet("background-color: rgba(232, 220, 202, 220); color: rgb(0, 0, 0);");
     inputLayout->addWidget(pushButton_quit);
 
-    // Connect the buttons to their respective slots
+    // Connect buttons to their respective slots
     connect(pushButton_send, &QPushButton::clicked, this, &ChatWindow::on_pushButton_Send_clicked);
     connect(pushButton_quit, &QPushButton::clicked, this, &ChatWindow::on_pushButton_Quit_clicked);
+
+    // Connect SocketManager signals to ChatWindow slots
+    connect(SocketManager::instance(), &SocketManager::messageReceived, this, &ChatWindow::onMessageReceived);
+    connect(SocketManager::instance(), &SocketManager::disconnected, this, &ChatWindow::onDisconnected);
 }
 
 ChatWindow::~ChatWindow()
 {
-    // Cleanup UI components
     delete listWidget_message_box;
     delete listView_user_online;
     delete lineEdit_message_input;
@@ -89,7 +85,17 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::on_pushButton_Send_clicked()
 {
-    // Add your functionality for the send button here
+    QString message = lineEdit_message_input->text().trimmed();
+    if (!message.isEmpty()) {
+        // Send message to server
+        SocketManager::instance()->sendMessage(message);
+
+        // Display the sent message in the chat box
+        listWidget_message_box->addItem("Me: " + message);
+
+        // Clear the input field
+        lineEdit_message_input->clear();
+    }
 }
 
 void ChatWindow::on_pushButton_Quit_clicked()
@@ -99,10 +105,22 @@ void ChatWindow::on_pushButton_Quit_clicked()
         QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
+        SocketManager::instance()->disconnectFromServer();
         close();
     }
 }
 
+void ChatWindow::onMessageReceived(const QString &message)
+{
+    // Display received messages in the chat box
+    listWidget_message_box->addItem(message);
+}
+
+void ChatWindow::onDisconnected()
+{
+    QMessageBox::warning(this, "Disconnected", "You have been disconnected from the server.");
+    close();
+}
 void ChatWindow::closeEvent(QCloseEvent *event)
 {
     emit chatClosed();
