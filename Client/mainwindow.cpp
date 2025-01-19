@@ -47,6 +47,12 @@ void MainWindow::on_pushButton_Login_clicked()
 
 void MainWindow::onConnectionSuccess()
 {
+    static bool isCalled = false;
+    if (isCalled) {
+        return;
+    }
+    isCalled = true;
+
     qDebug() << "Connection successful. Sending username: " << m_pendingUsername;
     SocketManager::instance()->sendMessage(m_pendingUsername);
     this->close();
