@@ -22,6 +22,7 @@ private slots:
     void on_pushButton_Quit_clicked(); // Handles quitting the application
     void onMessageReceived(const QString& message); // Slot to handle incoming messages
     void onDisconnected(); // Slot to handle disconnection from the server
+<<<<<<< HEAD
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -29,6 +30,8 @@ protected:
 signals:
     void chatClosed();  // Declaration of the chatClosed signal.
 
+=======
+>>>>>>> 7666d3d86198bc9c4a64e88120abe11925d4f937
 
 private:
     // UI Components
