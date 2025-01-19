@@ -27,6 +27,12 @@ private slots:
     void on_pushButton_Send_clicked();
     void on_pushButton_Quit_clicked();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
+signals:
+    void chatClosed();
+
 private:
     // UI elements
     QPushButton *pushButton_send;
@@ -36,10 +42,10 @@ private:
     QListWidget *listWidget_message_box;
     QLabel *label;
     QFrame *frame;
-    QPushButton *pushButton; // Inside the frame
+    QPushButton *pushButton;
 
-    // Pointer to the UI class (for auto-generated UI code, if applicable)
     Ui::ChatWindow *ui;
 };
+
 
 #endif // CHAT_H

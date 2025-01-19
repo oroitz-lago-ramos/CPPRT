@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -100,4 +101,10 @@ void ChatWindow::on_pushButton_Quit_clicked()
     if (reply == QMessageBox::Yes) {
         close();
     }
+}
+
+void ChatWindow::closeEvent(QCloseEvent *event)
+{
+    emit chatClosed();
+    QMainWindow::closeEvent(event);
 }

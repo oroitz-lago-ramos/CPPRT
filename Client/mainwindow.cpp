@@ -3,14 +3,14 @@
 #include "SocketManager.h"
 #include <QMessageBox>
 #include <QDebug>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_isClosed(false) // Initialisation
 {
     ui->setupUi(this);
-
-    // Connect signals from SocketManager
     connect(SocketManager::instance(), &SocketManager::connectedToServer, this, &MainWindow::onConnectionSuccess);
     connect(SocketManager::instance(), &SocketManager::connectionFailed, this, &MainWindow::onConnectionFailure);
 }
@@ -18,6 +18,17 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool MainWindow::isClosed() const
+{
+    return m_isClosed;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    m_isClosed = true;
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::on_pushButton_Login_clicked()
@@ -28,7 +39,7 @@ void MainWindow::on_pushButton_Login_clicked()
         return;
     }
 
-    m_pendingUsername = username; // Store the username temporarily
+    m_pendingUsername = username;
 
     qDebug() << "Attempting to connect...";
     SocketManager::instance()->connectToServer("localhost", 1234);
@@ -37,14 +48,8 @@ void MainWindow::on_pushButton_Login_clicked()
 void MainWindow::onConnectionSuccess()
 {
     qDebug() << "Connection successful. Sending username: " << m_pendingUsername;
-
-    // Send username to the server
     SocketManager::instance()->sendMessage(m_pendingUsername);
-
-    QMessageBox::information(this, "Login", "Welcome " + m_pendingUsername);
-
-    // Transition to the chat page or enable chat UI
-    // Example: emit signal or call method to change page
+    this->close();
 }
 
 void MainWindow::onConnectionFailure()
